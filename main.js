@@ -1,15 +1,3 @@
-const obj = {
-  a: "a",
-  b: "b",
-  c: {
-    d: "d",
-    c: "c",
-  },
-  editA() {
-    this.a = "AAAA";
-  },
-};
-
 function isObject(subject) {
   return typeof subject == "object";
 }
@@ -47,3 +35,46 @@ function deepCopy(subject) {
   }
   return copySubject;
 }
+
+// const studentBase = {
+//   name: undefined,
+//   email: undefined,
+//   age: undefined,
+//   approvedCourses: undefined,
+//   learningPaths: undefined,
+//   socialMedia: {
+//     twitter: undefined,
+//     instagram: undefined,
+//     facebook: undefined,
+//   },
+// };
+
+function requiredParam(param) {
+  throw new Error(param + " es obligatorio");
+}
+
+function createStudent({
+  name = requiredParam("name"),
+  email = requiredParam("email"),
+  age,
+  twitter,
+  instagram,
+  facebook,
+  approvedCourses = [],
+  learningPaths = [],
+} = {}) {
+  return {
+    name,
+    age,
+    email,
+    approvedCourses,
+    learningPaths,
+    socialMedia: {
+      twitter,
+      instagram,
+      facebook,
+    },
+  };
+}
+
+const akio = createStudent({ email: "akio@xd", name: "akio" });
