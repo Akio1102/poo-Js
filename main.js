@@ -63,8 +63,11 @@ function createStudent({
   approvedCourses = [],
   learningPaths = [],
 } = {}) {
-  return {
-    name,
+  const private = {
+    _name: name,
+  };
+
+  const public = {
     age,
     email,
     approvedCourses,
@@ -74,7 +77,26 @@ function createStudent({
       instagram,
       facebook,
     },
+    readName() {
+      return private["_name"];
+    },
+    changeName(newName) {
+      private._name = newName;
+    },
   };
+
+  Object.defineProperties(public, {
+    readName: {
+      writable: false,
+      configurable: false,
+    },
+    changeName: {
+      writable: false,
+      configurable: false,
+    },
+  });
+
+  return public;
 }
 
 const akio = createStudent({ email: "akio@xd", name: "akio" });
