@@ -86,13 +86,25 @@ function Student({
     facebook,
   };
 
-  if (isArray(learningPaths)) {
-    this.learningPaths = [];
-    for (learningPathIndex in learningPaths) {
-      if (learningPaths[learningPathIndex] instanceof LearningPath) {
-        this.learningPaths.push(learningPaths[learningPathIndex]);
+  const private = {
+    _learningPaths: [],
+  };
+
+  Object.defineProperty(this, "learningPaths", {
+    get() {
+      return private._learningPaths;
+    },
+    set(newLp) {
+      if (newLp instanceof LearningPath) {
+        private._learningPaths.push(newLp);
+      } else {
+        console.warn("No es una instancia de LP");
       }
-    }
+    },
+  });
+
+  for (learningPathIndex in learningPaths) {
+    this.learningPaths = learningPaths[learningPathIndex];
   }
 
   // const private = {
@@ -137,6 +149,7 @@ function Student({
   // };
   // return public;
 }
+
 const escuelaWeb = new LearningPath({ name: "Escuela web" });
 const escuelaJS = new LearningPath({ name: "Escuela JS" });
 const akio = new Student({
@@ -145,9 +158,9 @@ const akio = new Student({
   learningPaths: [
     escuelaWeb,
     escuelaJS,
-    {
-      name: "SUS",
-      courses: [],
-    },
+    // {
+    //   name: "SUS",
+    //   courses: [],
+    // },
   ],
 });
